@@ -1,54 +1,29 @@
-"""
-Calculate the fuel cost based on weight.
+import sys
+import days.day1
+import days.day2
 
->>> fuel_calculation(0)
--2
->>> fuel_calculation(12)
-2
->>> fuel_calculation(14)
-2
->>> fuel_calculation(1969)
-654
->>> fuel_calculation(100756)
-33583
+def main(argv):
+    problem_no = int(argv[0])
 
->>> additional_fuel_amount(2)
-0
->>> additional_fuel_amount(654)
-312
->>> additional_fuel_amount(33583)
-16763
-
-
-
-"""
-
-from math import floor
-
-def main():
-    f = open("input/1.txt", "r")
-    lines = f.readlines()
-    weights = map(lambda x: int(x), lines)
-
-    fuel_amounts = list(map(fuel_calculation, weights))
-
-    naive_fuel_sum = sum(fuel_amounts)
-    print(naive_fuel_sum)
-
-    additional_fuel_amounts = map(additional_fuel_amount, fuel_amounts)
-    print(naive_fuel_sum + sum(additional_fuel_amounts))
-
-def fuel_calculation(weight):
-    return floor(weight/3) - 2
-
-def additional_fuel_amount(fuel_amount):
-    additional_fuel = fuel_calculation(fuel_amount)
-    if additional_fuel <= 0:
-        return 0
+    if problem_no == 1:
+        f = open("input/1.txt", "r")
+        input = days.day1.parse_input(f)
+        results = days.day1.solve(input)
+    elif problem_no == 2:
+        f = open("input/2.txt", "r")
+        input = days.day2.parse_input(f)
+        results = days.day2.solve(input)
     else:
-        return additional_fuel + additional_fuel_amount(additional_fuel)
+        raise "Unknown problem"
+
+
+
+    print(f"Problem 1: {results[0]}")
+    print(f"Problem 2: {results[1]}")
+
+
 
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    main()
+    main(sys.argv[1:])
